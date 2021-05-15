@@ -1,0 +1,74 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdkVersion 30
+
+    defaultConfig {
+        applicationId "com.push.demo"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+        }
+
+
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix '.debug'  // 可以设置JPUSH_PKGNAME添加.debug后缀，用于区分生产环境配置
+
+            manifestPlaceholders = [
+                    JPUSH_PKGNAME: "com.push.demo.debug",
+                    JPUSH_APPKEY : "4af081a561d51a60ef4e853e",
+                    JPUSH_CHANNEL: "default_developer",
+            ]
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            manifestPlaceholders = [
+                    JPUSH_PKGNAME: "com.push.demo",
+                    JPUSH_APPKEY : "57348103b690a0fddf674c3e",
+                    JPUSH_CHANNEL: "default_developer",
+            ]
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation 'com.alibaba:fastjson:1.2.48'
+    // 极光推送
+    implementation 'cn.jiguang.sdk:jpush:4.0.6'  // 此处以JPush 4.0.6 版本为例。
+    implementation 'cn.jiguang.sdk:jcore:2.8.0'  // 此处以JCore 2.8.0 版本为例。
+}
